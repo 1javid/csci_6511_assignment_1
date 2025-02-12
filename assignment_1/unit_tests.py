@@ -1,5 +1,5 @@
 import unittest
-from utils import h_of_n, g_of_n, f_of_n, read_input
+from utils import h_of_n, f_of_n, read_input
 from main import a_star_pitchers
 import os
 
@@ -21,12 +21,9 @@ class TestWaterPitchers(unittest.TestCase):
     def test_h_function(self):
         state = (0, 0, 0, 0)  
         target = 10
-        h = h_of_n(state, target)
-        self.assertTrue(h >= 0) 
-
-    def test_g_function(self):
-        g = g_of_n(5)
-        self.assertEqual(g, 6)  
+        max_capacity = 5
+        h = h_of_n(state, target, max_capacity)
+        self.assertTrue(h >= 0)
 
     def test_f_function(self):
         g = 5
@@ -39,6 +36,12 @@ class TestWaterPitchers(unittest.TestCase):
             f.write('2,3,5\n4')
         result = a_star_pitchers()
         self.assertGreater(result, 0)
+
+    def test_solve_water_pitchers_unsolvable(self):
+        with open('input.txt', 'w') as f:
+            f.write('2,4,6\n3')
+        result = a_star_pitchers()
+        self.assertEqual(result, -1)
 
     def test_solve_water_pitchers_zero_steps(self):
         with open('input.txt', 'w') as f:
