@@ -1,14 +1,22 @@
+"""
+A* search algorithm to solve the Water Pitchers Problem.
+"""
+
+__author__ = "Javid Alakbarli"
+__credits__ = ["Javid Alakbarli"]
+__version__ = "1.0.0"
+__maintainer__ = "Javid Alakbarli"
+__email__ = "javid.alakbarli@gwmail.gwu.edu"
+
 from utils import *
 
 def a_star_pitchers():
     """
-    Implements A* search algorithm to solve the Water Pitchers Problem.
-    
     The problem:
     - Given n pitchers with different capacities (last one being infinite)
     - Find minimum number of steps to get target amount in infinite pitcher
     - Operations allowed: fill pitcher, pour from one pitcher to another
-    
+
     Returns:
         int: Minimum number of steps to reach target, or -1 if no solution exists
     """

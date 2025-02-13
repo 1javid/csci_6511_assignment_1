@@ -1,3 +1,13 @@
+"""
+Utility functions for the Water Pitchers Problem using A* search algorithm.
+"""
+
+__author__ = "Javid Alakbarli"
+__credits__ = ["Javid Alakbarli"]
+__version__ = "1.0.0"
+__maintainer__ = "Javid Alakbarli"
+__email__ = "javid.alakbarli@gwmail.gwu.edu"
+
 import heapq
 import math
 
