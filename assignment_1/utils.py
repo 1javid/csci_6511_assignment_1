@@ -15,24 +15,45 @@ def read_input():
         target = int(lines[1])
         return pitchers_capacity, target
 
-def h_of_n(state, target, max_capacity):
+def h_of_n(state, target, pitchers_capacity):
     """
-    Heuristic function for A* search.
-    Estimates minimum steps needed to reach target from current state.
+    Improved heuristic function that estimates steps by considering combinations
+    of pitcher capacities from largest to smallest.
     
     Args:
         state: Current state (tuple of water levels in each pitcher)
         target: Target water amount
-        max_capacity: Capacity of largest finite pitcher
+        max_capacity: Largest finite pitcher capacity (not used in new implementation)
     
     Returns:
         int: Estimated minimum steps to reach target
     """
     current = state[-1]  # Amount in infinite pitcher
     remaining = target - current
-    if remaining <= 0: 
+    if remaining <= 0:
         return 0
-    return math.ceil(remaining / max_capacity)
+
+    # Get sorted list of finite pitcher capacities (largest to smallest)
+    finite_pitchers = sorted(pitchers_capacity[:-1], reverse=True)
+    steps = 0
+    target_left = remaining
+
+    # For each pitcher size, calculate how many full pitchers we need
+    for pitcher_size in finite_pitchers:
+        if target_left <= 0:
+            break
+        # How many times can we use this pitcher size
+        times_needed = target_left // pitcher_size
+        if times_needed > 0:
+            # Each pitcher requires 2 steps: fill and pour
+            steps += times_needed * 2
+            target_left -= times_needed * pitcher_size
+
+    # If there's still remaining amount, we need at least one more step
+    if target_left > 0:
+        steps += 2  # At least one more fill and pour operation
+
+    return steps
 
 def f_of_n(g, h):
     """

@@ -14,9 +14,6 @@ def a_star_pitchers():
     """
     pitchers_capacity, target = read_input()
 
-    # Find largest finite pitcher capacity for heuristic calculation
-    max_capacity = max(pitchers_capacity[:-1])
-
     # Early termination if target is not achievable
     if not is_solvable(pitchers_capacity, target):
         return -1   # Target not achievable with given pitcher capacities
@@ -24,7 +21,7 @@ def a_star_pitchers():
     # Initialize starting state where all pitchers are empty
     pitchers_0 = tuple([0] * len(pitchers_capacity))
     g_0 = 0  # Initial cost (steps taken) is 0
-    h_0 = h_of_n(pitchers_0, target, max_capacity)  # Initial heuristic estimate
+    h_0 = h_of_n(pitchers_0, target, pitchers_capacity)  # Initial heuristic estimate
     f_0 = f_of_n(g_0, h_0)  # Initial total cost estimate (f = g + h)
 
     # Priority queue for A* search - stores (f_value, g_value, state)
@@ -56,7 +53,7 @@ def a_star_pitchers():
             if new_state in visited:
                 continue  # Skip already visited states
             new_g = g + 1  # Increment step count
-            new_h = h_of_n(new_state, target, max_capacity)  # Calculate new heuristic
+            new_h = h_of_n(new_state, target, pitchers_capacity)  # Calculate new heuristic
             new_f = f_of_n(new_g, new_h)  # Calculate new total cost
             push(priority_queue, (new_f, new_g, new_state))
             visited[new_state] = new_g  # Mark state as visited
