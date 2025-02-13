@@ -21,8 +21,8 @@ class TestWaterPitchers(unittest.TestCase):
     def test_h_function(self):
         state = (0, 0, 0, 0)  
         target = 10
-        max_capacity = 5
-        h = h_of_n(state, target, max_capacity)
+        pitchers_capacity = [1, 2, 3, float('inf')]
+        h = h_of_n(state, target, pitchers_capacity)
         self.assertTrue(h >= 0)
 
     def test_f_function(self):
