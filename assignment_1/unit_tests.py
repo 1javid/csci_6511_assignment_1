@@ -7,7 +7,6 @@ __author__ = "Javid Alakbarli"
 __credits__ = ["Javid Alakbarli"]
 __version__ = "1.0.0"
 __maintainer__ = "Javid Alakbarli"
-__email__ = "javid.alakbarli@gwmail.gwu.edu"
 
 import unittest
 from utils import h_of_n, f_of_n, read_input

@@ -6,7 +6,6 @@ __author__ = "Javid Alakbarli"
 __credits__ = ["Javid Alakbarli"]
 __version__ = "1.0.0"
 __maintainer__ = "Javid Alakbarli"
-__email__ = "javid.alakbarli@gwmail.gwu.edu"
 
 from utils import *
 
