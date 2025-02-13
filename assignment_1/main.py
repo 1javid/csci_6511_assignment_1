@@ -21,10 +21,10 @@ def a_star_pitchers():
     # Initialize starting state where all pitchers are empty
     pitchers_0 = tuple([0] * len(pitchers_capacity))
     g_0 = 0  # Initial cost (steps taken) is 0
-    h_0 = h_of_n(pitchers_0, target, pitchers_capacity)  # Initial heuristic estimate
-    f_0 = f_of_n(g_0, h_0)  # Initial total cost estimate (f = g + h)
+    h_0 = h_of_n(pitchers_0, target, pitchers_capacity)  
+    f_0 = f_of_n(g_0, h_0)  
 
-    # Priority queue for A* search - stores (f_value, g_value, state)
+    # Priority queue for A* search - stores (f_value, g_value, states)
     priority_queue = []
     push(priority_queue, (f_0, g_0, pitchers_0))
 
@@ -41,10 +41,10 @@ def a_star_pitchers():
 
         # Generate successor states through valid operations
         expanded_nodes = []
-        # Try filling each pitcher
+        # Successor states for filling each pitcher
         for new_state in fill_pitchers(state, pitchers_capacity, n):
             expanded_nodes.append(new_state)
-        # Try pouring between each pair of pitchers
+        # Successor states for pouring water between pitchers
         for new_state in pour_between_pitchers(state, pitchers_capacity, n, target):
             expanded_nodes.append(new_state)
 
@@ -52,9 +52,9 @@ def a_star_pitchers():
         for new_state in expanded_nodes:
             if new_state in visited:
                 continue  # Skip already visited states
-            new_g = g + 1  # Increment step count
-            new_h = h_of_n(new_state, target, pitchers_capacity)  # Calculate new heuristic
-            new_f = f_of_n(new_g, new_h)  # Calculate new total cost
+            new_g = g + 1  
+            new_h = h_of_n(new_state, target, pitchers_capacity) 
+            new_f = f_of_n(new_g, new_h)  
             push(priority_queue, (new_f, new_g, new_state))
             visited[new_state] = new_g  # Mark state as visited
 
