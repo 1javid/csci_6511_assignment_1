@@ -49,21 +49,21 @@ def a_star_pitchers():
         # Generate successor states through valid operations
         expanded_nodes = []
         # Successor states for filling each pitcher
-        for new_state in fill_pitchers(state, pitchers_capacity, n):
-            expanded_nodes.append(new_state)
+        expanded_nodes.extend(fill_pitchers(state, pitchers_capacity, n))
         # Successor states for pouring water between pitchers
-        for new_state in pour_between_pitchers(state, pitchers_capacity, n, target):
-            expanded_nodes.append(new_state)
+        expanded_nodes.extend(pour_between_pitchers(state, pitchers_capacity, n))
 
         # Process each successor state
         for new_state in expanded_nodes:
             if new_state in visited:
                 continue  # Skip already visited states
-            new_g = g + 1  
-            new_h = h_of_n(new_state, target, pitchers_capacity) 
-            new_f = f_of_n(new_g, new_h)  
+            
+            # Calculate new heuristic and check consistency
+            new_g = g + 1
+            new_h = h_of_n(new_state, target, pitchers_capacity)
+            new_f = f_of_n(new_g, new_h)
             push(priority_queue, (new_f, new_g, new_state))
-            visited[new_state] = new_g  # Mark state as visited
+            visited[new_state] = new_g
 
     return -1  # No solution found after exploring all possible states
 

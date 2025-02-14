@@ -26,43 +26,24 @@ def read_input():
 
 def h_of_n(state, target, pitchers_capacity):
     """
-    Improved heuristic function that estimates steps by considering combinations
-    of pitcher capacities from largest to smallest.
+    Heuristic function for A* search algorithm.
     
     Args:
-        state: Current state (tuple of water levels in each pitcher)
-        target: Target water amount
-        max_capacity: Largest finite pitcher capacity (not used in new implementation)
+        state (tuple): Current state of the pitchers.
+        target (int): Target volume of water to be achieved.
+        pitchers_capacity (list): List of capacities of the pitchers including the infinite pitcher.
     
     Returns:
-        int: Estimated minimum steps to reach target
+        int: Heuristic estimate of the cost to reach the goal from the current state.
     """
-    current = state[-1]  # Amount in infinite pitcher
+    current = state[-1]  # Water in infinite pitcher
     remaining = target - current
-    if remaining <= 0:
+    if remaining == 0:
         return 0
+    
+    min_pitcher = min(pitchers_capacity[:-1])  
+    return math.ceil(abs(remaining) / min_pitcher)
 
-    # Get sorted list of finite pitcher capacities (largest to smallest)
-    finite_pitchers = sorted(pitchers_capacity[:-1], reverse=True)
-    steps = 0
-    target_left = remaining
-
-    # For each pitcher size, calculate how many full pitchers we need
-    for pitcher_size in finite_pitchers:
-        if target_left <= 0:
-            break
-        # How many times can we use this pitcher size
-        times_needed = target_left // pitcher_size
-        if times_needed > 0:
-            # Each pitcher requires 2 steps: fill and pour
-            steps += times_needed * 2
-            target_left -= times_needed * pitcher_size
-
-    # If there's still remaining amount, we need at least one more step
-    if target_left > 0:
-        steps += 2  # At least one more fill and pour operation
-
-    return steps
 
 def f_of_n(g, h):
     """
@@ -91,7 +72,7 @@ def fill_pitchers(state, pitchers_capacity, n):
             expanded_nodes.append(tuple(new_state))
     return expanded_nodes
 
-def pour_between_pitchers(state, pitchers_capacity, n, target):
+def pour_between_pitchers(state, pitchers_capacity, n):
     """
     For each pair of pitchers (source and destination), if a valid pour exists,
     pour water so that either the source becomes empty or the destination is full.
@@ -106,11 +87,10 @@ def pour_between_pitchers(state, pitchers_capacity, n, target):
                 continue  # Skip if same pitcher or destination is already full.
             available_space = pitchers_capacity[j] - state[j]
             pour_amount = min(state[i], available_space)
-            if pour_amount > 0:
-                new_state = list(state)
-                new_state[i] -= pour_amount
-                new_state[j] += pour_amount
-                expanded_nodes.append(tuple(new_state))
+            new_state = list(state)
+            new_state[i] -= pour_amount
+            new_state[j] += pour_amount
+            expanded_nodes.append(tuple(new_state))
     return expanded_nodes
 
 def push(queue, item):
