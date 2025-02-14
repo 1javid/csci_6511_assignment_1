@@ -36,7 +36,7 @@ def a_star_pitchers():
     push(priority_queue, (f_0, g_0, pitchers_0))
 
     # Keep track of visited states and their costs to avoid cycles
-    visited = {pitchers_0: g_0}
+    visited = set(pitchers_0)
     n = len(pitchers_capacity)
 
     while priority_queue:
@@ -63,7 +63,7 @@ def a_star_pitchers():
             new_h = h_of_n(new_state, target, pitchers_capacity)
             new_f = f_of_n(new_g, new_h)
             push(priority_queue, (new_f, new_g, new_state))
-            visited[new_state] = new_g
+            visited.add(new_state)
 
     return -1  # No solution found after exploring all possible states
 
