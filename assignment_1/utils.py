@@ -41,8 +41,8 @@ def h_of_n(state, target, pitchers_capacity):
     if remaining == 0:
         return 0
     
-    min_pitcher = min(pitchers_capacity[:-1])  
-    return math.ceil(abs(remaining) / min_pitcher)
+    max_pitcher = max(pitchers_capacity[:-1])  
+    return math.ceil(abs(remaining) / max_pitcher)
 
 
 def f_of_n(g, h):
