@@ -58,41 +58,6 @@ def f_of_n(g, h):
     """
     return g + h
 
-def fill_pitchers(state, pitchers_capacity, n):
-    """
-    For each finite pitcher (i.e. all but the infinite pitcher), if it is not full,
-    produce a new state where the pitcher is filled.
-    Returns a tuple: new_state.
-    """
-    expanded_nodes = []
-    for i in range(n - 1):  # Exclude the infinite pitcher.
-        if state[i] < pitchers_capacity[i]:
-            new_state = list(state)
-            new_state[i] = pitchers_capacity[i]
-            expanded_nodes.append(tuple(new_state))
-    return expanded_nodes
-
-def pour_between_pitchers(state, pitchers_capacity, n):
-    """
-    For each pair of pitchers (source and destination), if a valid pour exists,
-    pour water so that either the source becomes empty or the destination is full.
-    Returns a tuple: new_state.
-    """
-    expanded_nodes = []
-    for i in range(n):  # Source pitcher.
-        if state[i] == 0:
-            continue  # Nothing to pour from an empty pitcher.
-        for j in range(n):  # Destination pitcher.
-            if i == j or state[j] == pitchers_capacity[j]:
-                continue  # Skip if same pitcher or destination is already full.
-            available_space = pitchers_capacity[j] - state[j]
-            pour_amount = min(state[i], available_space)
-            new_state = list(state)
-            new_state[i] -= pour_amount
-            new_state[j] += pour_amount
-            expanded_nodes.append(tuple(new_state))
-    return expanded_nodes
-
 def push(queue, item):
     heapq.heappush(queue, item)
 
